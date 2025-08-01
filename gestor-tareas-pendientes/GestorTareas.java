@@ -143,10 +143,8 @@ public class GestorTareas
                 if (i < tareasPendientes.size() -1)  {
                     tareasADevolver += ",";
                 }
-
             }
         }
-
         else {
             tareasADevolver = "[]";
         }
@@ -166,9 +164,69 @@ public class GestorTareas
                 if(tarea.contains(palabra)) {
                     existe = true;
                 }
-
             }
         }
         return existe;
+    }
+
+    /**
+     * Metodo getTareasImportantes:
+     * Devuelve un String con todas las tareas pendientes, una en cada línea,
+     * precedidas de su posicion (empezando en 1), un punto y un espacio 
+     * (por ejemplo: "1. Hacer la cama (importante)\\n3. Estudiar (Importante)\\n") 
+     * siempre que la tarea contenga la palabra "importante" 
+     * (que puede aparecer en mayúsculas o en minúsculas). 
+     * Si no hay tareas de ese tipo devuelve la cadena vacía
+     */
+    public String getTareasImportantes () {
+        String tareaADevolver = "";
+        for (int i = 0; i < tareasPendientes.size(); i++) {
+            if (tareasPendientes.get(i).toLowerCase().contains("importante")) {
+                tareaADevolver += (i + 1) + ". " + tareasPendientes.get(i) + "\n";
+            }
+        }
+        return tareaADevolver;
+
+    }
+
+    /**
+     * Metodo imprimirTareasImportantes:
+     * Imprime por pantalla todas las tareas pendientes, una en cada línea,
+     * precedidas de su posicion (empezando en 1), un punto y un espacio 
+     * (por ejemplo: "1. Hacer la cama (importante)\\n3. Estudiar (Importante)\\n") 
+     * siempre que la tarea contenga la palabra "importante"  
+     * (que puede aparecer en mayúsculas o en minúsculas). 
+     * Si no hay tareas de ese tipo imprime una línea en blanco.
+     **/
+    public void imprimirTareasImportantes() {
+        System.out.println(getTareasImportantes());
+    }
+
+    /**
+     * Metodo getTareasImpares:
+     * Devuelve un String con todas las tareas pendientes, una en cada línea,
+     * precedidas de su posicion (empezando en 1), un punto y un espacio 
+     * (por ejemplo: "1. Hacer la cama\\n3.Estudiar\\n") siempre que la tarea ocupe una posición
+     * impar. Si no hay tareas de ese tipo devuelve la cadena vacía.
+     */
+    public String getTareasImpares() {
+        String tareaADevolver = "";
+        for (int i = 0; i < tareasPendientes.size(); i++) {
+            if (i % 2 == 0 ) {
+                tareaADevolver += (i+1) + ". " + tareasPendientes.get(i) + "\n";
+            }
+        }
+        return tareaADevolver;
+    }
+
+    /**
+     * Metodo imprimirTareasImpares:
+     * Imprime por pantalla todas las tareas pendientes, una en cada línea,
+     * precedidas de su posicion (empezando en 1), un punto y un espacio 
+     * (por ejemplo: "1. Hacer la cama") siempre que la tarea ocupe una posición
+     * impar. Si no hay tareas de ese tipo imprime una línea en blanco.
+     */
+    public void imprimirTareasImpares() {
+        System.out.println(getTareasImpares());
     }
 }
