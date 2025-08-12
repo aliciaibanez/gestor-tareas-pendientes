@@ -342,7 +342,25 @@ public class GestorTareas
      * no haber tareas se devuelve la cadena vacía.
      */
     public String getPrimerasTareas(int n) {
-        
+        String tareaADevolver = "";
+        for (int i = 0; i < tareasPendientes.size(); i++) {
+            if (n == 0) {
+                tareaADevolver = "";
+            }
+            if (n < tareasPendientes.size() && i < n) {
+                tareaADevolver += (i + 1) + ". " + tareasPendientes.get(i) + "\n";
+
+            }
+            if (n > tareasPendientes.size() && i < n) {
+                tareaADevolver += (i + 1) + ". " + tareasPendientes.get(i) + "\n";
+
+            }
+            if (n == tareasPendientes.size()) {
+                tareaADevolver += (i + 1) + ". " + tareasPendientes.get(i) + "\n";
+
+            }
+        }
+        return tareaADevolver;
     }
 
     /**
@@ -354,7 +372,7 @@ public class GestorTareas
      * el método anterior
      */
     public void imprimePrimerasTareas(int n) {
-
+        System.out.println(getPrimerasTareas(n));
     }
 
     /**
@@ -363,8 +381,12 @@ public class GestorTareas
      * contenga el texto indicado como parámetro y false en caso contrario. El
      * metodo se debe ejecutar de la forma mas rapida posible
      */
-    public void hayTareaConElTextoEficiente (String texto) {
-
+    public boolean hayTareaConElTextoEficiente (String texto) {
+        boolean existeTarea = false;
+        if(existeTareaConElTexto(texto) == true) {
+            existeTarea = true;
+        }
+        return existeTarea;
     }
 
     /**
@@ -376,7 +398,24 @@ public class GestorTareas
      * La coincidencia tiene que ser case-sensitive.
      */
     public String getTareasConElTexto(String texto) {
+        String tareaADevolver = "";
+        int contadorTareas = 0;
+        for (int i = 0; i < tareasPendientes.size(); i++) {
+            if (tareasPendientes.get(i).contains(texto)) {
+                contadorTareas++;
+                tareaADevolver += tareasPendientes.get(i) + "\n";
+            }
+        }
 
+        if (contadorTareas != 0) {
+            tareaADevolver +=  contadorTareas;
+        }
+
+        if (contadorTareas == 0 || tareasPendientes.size() == 0) {
+            tareaADevolver +=  "No se encontraron coincidencias";
+        }
+
+        return tareaADevolver;
     }
 
     /**
@@ -388,7 +427,7 @@ public class GestorTareas
      * coincidencia tiene que ser case-sensitive.
      */
     public void imprimirTareasConElTexto(String texto) {
-
+        System.out.println(getTareasConElTexto(texto));
     }
 
     /**
@@ -398,7 +437,15 @@ public class GestorTareas
      * en caso contrario. Hay que hacerlo lo mas eficiente posible
      */
     public boolean eliminaPrimeraTareaConElTexto(String texto) {
-
+        boolean hayTarea = false;
+        for (int i = 0; i < tareasPendientes.size(); i++) {
+            if(tareasPendientes.get(i).contains(texto)) {
+                hayTarea = true;
+                tareasPendientes.remove(i);
+                break;
+            }
+        }
+        return hayTarea;
     }
 
     /**
@@ -407,7 +454,17 @@ public class GestorTareas
      * texto pasado como parametro. Devuelve el numero de tareas eliminadas. Hay que
      * hacerlo con un bucle while.
      */
-    public int  eliminaTodasLasTareasConElTexto(String texto) {
-
+    public int eliminaTodasLasTareasConElTexto(String texto) {
+        int contador = 0;
+        int i = 0;
+        while (i < tareasPendientes.size()) {
+            if (tareasPendientes.get(i).contains(texto)) {
+                tareasPendientes.remove(i);
+                contador++;
+            } else {
+                i++;
+            }
+        }
+        return contador;
     }
 }
