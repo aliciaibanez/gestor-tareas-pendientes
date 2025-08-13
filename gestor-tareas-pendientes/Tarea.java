@@ -32,6 +32,6 @@ public class Tarea
     }
     
     public String toString() {
-        return textoTarea + "\n";
+        return textoTarea;
     }
 }

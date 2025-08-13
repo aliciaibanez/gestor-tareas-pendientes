@@ -28,7 +28,7 @@ public class GestorTareas
     public String devolverTareas() {
         String tareasADevolver = "";
         for (Tarea tarea : tareasPendientes) {
-            tareasADevolver += tarea.toString();
+            tareasADevolver += tarea.toString() + "\n";
         }
         return tareasADevolver;
     }
@@ -75,7 +75,7 @@ public class GestorTareas
     public void imprimirTareaMasAntigua() {
         String tareaMasAntigua = "";
         if (tareasPendientes.size() != 0) {
-            tareaMasAntigua = tareasPendientes.get(0);
+            tareaMasAntigua = tareasPendientes.get(0).getTextoTarea();
         }
         System.out.println ( "La tarea más antigua es " + tareaMasAntigua);
     }
@@ -89,7 +89,7 @@ public class GestorTareas
     public String getListadoTareas() {
         String tareasADevolver = "";
         for (int i = 0; i < tareasPendientes.size(); i++) {
-            tareasADevolver += (i+1) + ". " + tareasPendientes.get(i) + "\n";
+            tareasADevolver += (i+1) + ". " + tareasPendientes.get(i).toString() + "\n";
         }
         return tareasADevolver;
     }
@@ -120,7 +120,7 @@ public class GestorTareas
         String tareasADevolver = "[";
         if(tareasPendientes.size() != 0) {
             for (int i = 0; i < tareasPendientes.size(); i++) {
-                tareasADevolver += tareasPendientes.get(i);
+                tareasADevolver += tareasPendientes.get(i) ;
                 if (i < tareasPendientes.size() -1) {
                     tareasADevolver += ", ";
                 }
@@ -160,9 +160,9 @@ public class GestorTareas
     public boolean existeTareaConElTexto(String textoABuscar){
         boolean existe = false;
         String[] palabrasAEncontrar = textoABuscar.toLowerCase().split(("\\s+"));
-        for (String tarea : tareasPendientes) {
+        for (Tarea tarea : tareasPendientes) {
             for (String palabra : palabrasAEncontrar) {
-                if(tarea.contains(palabra)) {
+                if(tarea.getTextoTarea().contains(palabra)) {
                     existe = true;
                 }
             }
@@ -182,7 +182,7 @@ public class GestorTareas
     public String getTareasImportantes () {
         String tareaADevolver = "";
         for (int i = 0; i < tareasPendientes.size(); i++) {
-            if (tareasPendientes.get(i).toLowerCase().contains("importante")) {
+            if (tareasPendientes.get(i).getTextoTarea().toLowerCase().contains("importante")) {
                 tareaADevolver += (i + 1) + ". " + tareasPendientes.get(i) + "\n";
             }
         }
@@ -256,9 +256,9 @@ public class GestorTareas
 
     public String getPrimeraTareaConElTexto(String tareaABuscar) {
         String tareaADevolver = "";
-        for (String tarea : tareasPendientes) {
-            if (tarea.contains(tareaABuscar)) {
-                tareaADevolver = tarea;
+        for (Tarea tarea : tareasPendientes) {
+            if (tarea.getTextoTarea().contains(tareaABuscar)) {
+                tareaADevolver = tarea.toString();
                 break;
             }  
         }
@@ -309,8 +309,8 @@ public class GestorTareas
         String tareaADevolver = "";
         int i = 0;
         while (i < tareasPendientes.size()) {
-            if (tareasPendientes.get(i).contains(tareaABuscar)) {
-                tareaADevolver = tareasPendientes.get(i);
+            if (tareasPendientes.get(i).getTextoTarea().contains(tareaABuscar)) {
+                tareaADevolver = tareasPendientes.get(i).toString();
                 break;
             }
             i++;
@@ -328,7 +328,7 @@ public class GestorTareas
     public void imprimePrimeraTareaConTextoWhile(String tareaABuscar) {
         int i = 0;
         while (i < tareasPendientes.size()) {
-            if (tareasPendientes.get(i).contains(tareaABuscar)) {
+            if (tareasPendientes.get(i).getTextoTarea().contains(tareaABuscar)) {
                 System.out.println(tareasPendientes.get(i));
                 break;
             }
@@ -402,7 +402,7 @@ public class GestorTareas
         String tareaADevolver = "";
         int contadorTareas = 0;
         for (int i = 0; i < tareasPendientes.size(); i++) {
-            if (tareasPendientes.get(i).contains(texto)) {
+            if (tareasPendientes.get(i).getTextoTarea().contains(texto)) {
                 contadorTareas++;
                 tareaADevolver += tareasPendientes.get(i) + "\n";
             }
@@ -440,7 +440,7 @@ public class GestorTareas
     public boolean eliminaPrimeraTareaConElTexto(String texto) {
         boolean hayTarea = false;
         for (int i = 0; i < tareasPendientes.size(); i++) {
-            if(tareasPendientes.get(i).contains(texto)) {
+            if(tareasPendientes.get(i).getTextoTarea().contains(texto)) {
                 hayTarea = true;
                 tareasPendientes.remove(i);
                 break;
@@ -459,7 +459,7 @@ public class GestorTareas
         int contador = 0;
         int i = 0;
         while (i < tareasPendientes.size()) {
-            if (tareasPendientes.get(i).contains(texto)) {
+            if (tareasPendientes.get(i).getTextoTarea().contains(texto)) {
                 tareasPendientes.remove(i);
                 contador++;
             } else {
@@ -476,61 +476,15 @@ public class GestorTareas
      * indicado en el segundo parámetro. Si la operación tiene exito devuelve
      * true; false en caso contrario.
      */
-    public boolean editarTarea(int n, String texto) {
+    public boolean editarTarea(int n, Tarea tarea) {
         boolean encontrada = false;
         for (int i = 0; i < tareasPendientes.size(); i++) {
             if (i + 1 == n) {
-                tareasPendientes.set(i, texto);
+                tareasPendientes.set(i, tarea);
                 encontrada = true;
             }
         }
         return encontrada;
     }
 
-    /**
-     * Metodo 'marcarComoCompletada'
-     * Marca como completada la tarea cuyo numero al
-     * listarla coincide con el pasado como parametro y devuelve true si pudo
-     * realizar la operacion o false en caso contrario (se entiende que una tarea
-     * que ya esta completada no se puede volver a marcar como completada)
-     * No se pueden agregar nuevas clases al proyecto. Tampoco se puede cambiar
-     * el texto de una tarea (el resto de método anteriores deben seguir
-     * funcionando tal y como estan ahora mismo)
-     */
-    public boolean marcarComoCompletada (int n) {        
-        for (int i = 0; i < tareasPendientes.size(); i++) {
-            if (i  < tareasPendientes.size() && (i == (n -1) && completada == false)) {
-                completada = true;
-            }
-        }
-        return completada;
-
-    }
-
-    /**
-     * Metodo 'getListaTareasCompletadasYNoCompletadas'
-     * Devuelve un String  con todas las
-     * tareas una en cada línea, precedidas de su posicion (empezando en 1), un
-     * punto un espacio y, si estan completadas, un corchete, una x y otro corchete,
-     * y luego el texto de la tarea. Ejemplo de tarea terminada sería
-     * "1. [x] Hacer la cama". Ejemplo de tarea no terminada sería "1. Hacer la cama".
-     * Si no hay tareas devuelve la cadena vacía. Se asume que las tareas cuando
-     * se insertan en el gestor no están completadas. No se pueden agregar nuevas
-     * clases al proyecto.
-     */
-
-    public String getListaTareasCompletadasYNoCompletadas() {
-        String tareaADevolver = "";
-
-        for (int i = 0; i < tareasPendientes.size(); i++) {
-            if (completada == true) {
-                tareaADevolver += (i + 1) + ". " + "[x]" + tareasPendientes.get(i) + "\n";
-            }
-            else {
-                tareaADevolver += (i + 1) + ". " + tareasPendientes.get(i) + "\n";
-            }
-
-        }
-        return tareaADevolver;
-    }
 }
