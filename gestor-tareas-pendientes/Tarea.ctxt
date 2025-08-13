@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=Tarea
+comment1.params=
+comment1.target=Tarea()
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Tarea\r\n
+comment2.params=texto
+comment2.target=void\ setTextoTarea(java.lang.String)
+comment3.params=estado
+comment3.target=void\ setCompletada(boolean)
+comment4.params=
+comment4.target=java.lang.String\ getTextoTarea()
+comment5.params=
+comment5.target=boolean\ getCompletada()
+comment6.params=
+comment6.target=java.lang.String\ toString()
+numComments=7
